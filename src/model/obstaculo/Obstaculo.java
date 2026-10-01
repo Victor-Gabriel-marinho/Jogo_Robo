@@ -1,4 +1,11 @@
 package model.obstaculo;
 
-public class Obstaculo {
+public abstract class Obstaculo {
+
+    protected int id;
+
+    public abstract void bater();
+
 }
+
+
