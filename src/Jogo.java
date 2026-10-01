@@ -19,7 +19,8 @@ public class Jogo {
 
         switch (modo) {
             case 1: {
-                Main1.main1(scan);
+                javax.swing.SwingUtilities.invokeLater(() ->
+                        new view.JanelaModo1(new model.robo.Robo("azul")).setVisible(true));
                 break;
             }
         }
