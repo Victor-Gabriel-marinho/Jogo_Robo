@@ -27,8 +27,8 @@ public class RoboInteligente extends Robo {
         try {
             super.mover(direcao);
         } catch (MovimentoInvalidoException falha) {
-            // só corrige direções conhecidas; texto desconhecido continua sendo erro
-            if (!DIRECOES.contains(direcao)) {
+            // só corrige direções conhecidas; texto desconhecido (ou robô explodido) continua sendo erro
+            if (isExplodido() || !DIRECOES.contains(direcao)) {
                 throw falha;
             }
 

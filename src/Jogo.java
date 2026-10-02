@@ -1,6 +1,7 @@
 import app.Main1;
 import app.Main2;
 import app.Main3;
+import app.Main4;
 import model.robo.Robo;
 import model.robo.RoboInteligente;
 
@@ -43,9 +44,11 @@ public class Jogo {
                 SwingUtilities.invokeLater(() -> new Main3(rs));
                 break;
             }
-            case 4:
-                System.out.println("Modo 4 ainda não implementado.");
+            case 4: {
+                List<Robo> rs = criarRobos(1, 1);
+                SwingUtilities.invokeLater(() -> new Main4(rs));
                 break;
+            }
             default:
                 System.out.println("Modo inválido.");
         }

@@ -118,6 +118,11 @@ public abstract class MainBase extends JFrame {
         return "Robô " + (robos.indexOf(robo) + 1) + " (" + robo.getCor() + ")";
     }
 
+    /** Movimentos feitos pelo robô (válidos + inválidos). */
+    protected int totalMovimentos(Robo robo) {
+        return robo.getMovimentoValido() + robo.getMovimentoInvalido();
+    }
+
     /** Ex.: "Robô 2 (azul): 7 válidos, 2 inválidos". */
     protected String resumo(Robo robo) {
         return descrever(robo) + ": " + robo.getMovimentoValido() + " válidos, "

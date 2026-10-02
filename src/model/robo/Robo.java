@@ -14,16 +14,22 @@ public class Robo {
 
     private int X;
     private int Y;
+    private int xAnterior;
+    private int yAnterior;
     private String cor;
     private int movimentoValido;
     private int movimentoInvalido;
+    private boolean explodido;
 
     public Robo(String cor) {
         this.X = 0;
         this.Y = 0;
+        this.xAnterior = 0;
+        this.yAnterior = 0;
         this.cor = cor;
         this.movimentoInvalido = 0;
         this.movimentoValido = 0;
+        this.explodido = false;
     }
 
     public int getX() {
@@ -32,6 +38,14 @@ public class Robo {
 
     public int getY() {
         return Y;
+    }
+
+    public int getXAnterior() {
+        return xAnterior;
+    }
+
+    public int getYAnterior() {
+        return yAnterior;
     }
 
     public String getCor() {
@@ -46,6 +60,10 @@ public class Robo {
         return movimentoValido;
     }
 
+    public boolean isExplodido() {
+        return explodido;
+    }
+
     public void setPosicaoX(int X) {
         this.X = X;
     }
@@ -55,6 +73,11 @@ public class Robo {
     }
 
     public void mover(String direcao) throws MovimentoInvalidoException {
+        if (explodido) {
+            // robô explodido não anda mais (e a tentativa não conta como movimento)
+            throw new MovimentoInvalidoException("robô explodido");
+        }
+
         int novoX = X;
         int novoY = Y;
 
@@ -73,6 +96,8 @@ public class Robo {
             throw new MovimentoInvalidoException(direcao);
         }
 
+        xAnterior = X;
+        yAnterior = Y;
         X = novoX;
         Y = novoY;
         movimentoValido++;
@@ -92,5 +117,21 @@ public class Robo {
 
     public boolean encontrouAlimento(int xAlim, int yAlim) {
         return X == xAlim && Y == yAlim;
+    }
+
+    /** Usado pela Rocha: desfaz o último movimento e passa a contá-lo como inválido. */
+    public void voltarParaPosicaoAnterior() {
+        if (X == xAnterior && Y == yAnterior) {
+            return; // não há movimento a desfazer
+        }
+        X = xAnterior;
+        Y = yAnterior;
+        movimentoValido--;
+        movimentoInvalido++;
+    }
+
+    /** Usado pela Bomba: o robô explode e não anda mais. */
+    public void explodir() {
+        explodido = true;
     }
 }

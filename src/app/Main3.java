@@ -37,7 +37,7 @@ public class Main3 extends MainBase {
             for (Robo r : robos) {
                 if (finalizados.contains(r)) {
                     aviso.append(descrever(r)).append(" já achou em ")
-                            .append(total(r)).append(" movimentos. ");
+                            .append(totalMovimentos(r)).append(" movimentos. ");
                 }
             }
             setAviso(aviso + "Aguardando...");
@@ -48,14 +48,10 @@ public class Main3 extends MainBase {
         for (Robo r : robos) {
             sb.append("\n").append(descrever(r))
                     .append(r instanceof RoboInteligente ? " [inteligente]: " : " [normal]: ")
-                    .append(total(r)).append(" movimentos (")
+                    .append(totalMovimentos(r)).append(" movimentos (")
                     .append(r.getMovimentoValido()).append(" válidos, ")
                     .append(r.getMovimentoInvalido()).append(" inválidos)");
         }
         encerrar(sb.toString());
-    }
-
-    private int total(Robo robo) {
-        return robo.getMovimentoValido() + robo.getMovimentoInvalido();
     }
 }
