@@ -10,7 +10,7 @@ import java.util.List;
 public class PainelTabuleiro extends JPanel {
 
     // lado da área em células (coordenadas de 0 a LADO - 1)
-    public static final int LADO = 4;
+    public static final int LADO = Robo.TAMANHO;
     private static final int CELULA_PADRAO = 110;
 
     private final List<Robo> robos = new ArrayList<>();

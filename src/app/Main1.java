@@ -12,8 +12,9 @@ public class Main1 extends MainBase {
 
     public Main1(List<Robo> robos) {
         super("Jogo Robô - Modo Player", robos, true);
-        alimX = pedirCoordenada("x");
-        alimY = pedirCoordenada("y");
+        int[] alimento = pedirAlimento();
+        alimX = alimento[0];
+        alimY = alimento[1];
         painel.setAlimento(alimX, alimY);
         exibir();
     }
