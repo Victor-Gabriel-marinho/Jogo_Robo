@@ -4,18 +4,24 @@ import model.robo.Robo;
 import view.MainBase;
 
 import java.util.List;
+import java.util.Random;
 
-public class Main1 extends MainBase {
-
+public class Main2 extends MainBase {
+    private final Random sorteio = new Random();
     private final int alimX;
     private final int alimY;
 
-    public Main1(List<Robo> robos) {
-        super("Jogo Robô - Modo Player", robos, true);
+    public Main2(List<Robo> robos) {
+        super("Jogo Robô - Modo Robo x Robo", robos, false);
         alimX = pedirCoordenada("x");
         alimY = pedirCoordenada("y");
         painel.setAlimento(alimX, alimY);
         exibir();
+        automatizar(1000, this::aleatorio);
+    }
+
+    private String aleatorio(Robo robo) {
+            return DIRECOES[sorteio.nextInt(DIRECOES.length)];
     }
 
     @Override
