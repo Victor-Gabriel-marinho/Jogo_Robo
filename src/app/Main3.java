@@ -30,20 +30,6 @@ public class Main3 extends MainBase {
             return;
         }
 
-        // quem achou a comida para de se mover; o jogo continua até todos acharem
-        finalizados.add(robo);
-        if (finalizados.size() < robos.size()) {
-            StringBuilder aviso = new StringBuilder();
-            for (Robo r : robos) {
-                if (finalizados.contains(r)) {
-                    aviso.append(descrever(r)).append(" já achou em ")
-                            .append(totalMovimentos(r)).append(" movimentos. ");
-                }
-            }
-            setAviso(aviso + "Aguardando...");
-            return;
-        }
-
         StringBuilder sb = new StringBuilder("Todos os robôs encontraram o alimento!\n");
         for (Robo r : robos) {
             sb.append("\n").append(descrever(r))

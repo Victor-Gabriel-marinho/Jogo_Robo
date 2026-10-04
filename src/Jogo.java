@@ -64,7 +64,7 @@ public class Jogo {
                     return valor;
                 }
             } else {
-                scan.next(); // descarta o texto inválido
+                scan.next();
             }
             System.out.println("Valor inválido. Digite um número de " + min + " a " + max + ".");
         }
@@ -90,7 +90,10 @@ public class Jogo {
         while (true) {
             System.out.println("Escolha a cor do " + quem + ":");
             for (int i = 0; i < cores.length; i++) {
-                System.out.println(i + " " + cores[i]);
+                System.out.printf("%-15s", i + " " + cores[i]);
+                if (i % 2 == 1 || i == cores.length - 1) {
+                    System.out.println();
+                }
             }
             String cor = cores[lerInteiro("> ", 0, cores.length - 1)];
             if (!usadas.contains(cor)) {
