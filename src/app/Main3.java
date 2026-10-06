@@ -30,14 +30,31 @@ public class Main3 extends MainBase {
             return;
         }
 
+        // quem achou a comida para de se mover; o jogo continua até todos acharem
+        finalizados.add(robo);
+        if (finalizados.size() < robos.size()) {
+            StringBuilder aviso = new StringBuilder();
+            for (Robo r : robos) {
+                if (finalizados.contains(r)) {
+                    aviso.append(descrever(r)).append(" já achou em ")
+                            .append(total(r)).append(" movimentos. ");
+                }
+            }
+            setAviso(aviso + "Aguardando...");
+            return;
+        }
+
         StringBuilder sb = new StringBuilder("Todos os robôs encontraram o alimento!\n");
         for (Robo r : robos) {
             sb.append("\n").append(descrever(r))
                     .append(r instanceof RoboInteligente ? " [inteligente]: " : " [normal]: ")
-                    .append(totalMovimentos(r)).append(" movimentos (")
+                    .append(total(r)).append(" movimentos (")
                     .append(r.getMovimentoValido()).append(" válidos, ")
                     .append(r.getMovimentoInvalido()).append(" inválidos)");
         }
         encerrar(sb.toString());
+    }
+    private int total(Robo robo) {
+        return robo.getMovimentoValido() + robo.getMovimentoInvalido();
     }
 }
