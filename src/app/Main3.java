@@ -9,7 +9,7 @@ import java.util.List;
 public class Main3 extends MainBase {
 
     // tempo entre dois movimentos (um robô se move por vez)
-    private static final int ATRASO_MS = 500;
+    private static final int ATRASO_MS = 700;
 
     private final int alimX;
     private final int alimY;

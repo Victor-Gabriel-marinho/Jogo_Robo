@@ -5,101 +5,64 @@ import app.Main4;
 import model.robo.Robo;
 import model.robo.RoboInteligente;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
 
 public class Jogo {
 
-    private static final String[] cores = {"vermelho", "azul", "verde", "amarelo", "laranja", "roxo", "preto"};
-    private static final Scanner scan = new Scanner(System.in);
+    private static final String[] MODOS = {
+            "Player", "Robo vs Robo", "Robo vs Robo Inteligente", "Obstáculos"};
+    private static final String[] CORES = {
+            "vermelho", "azul", "verde", "amarelo", "laranja", "roxo", "preto"};
 
     public static void main(String[] args) {
-
-        System.out.println("=== JOGO ROBÔS ===");
-        System.out.println("Escolha um modo de jogo:");
-        System.out.println("1 - Player");
-        System.out.println("2 - Robo vs Robo");
-        System.out.println("3 - Robo vs Robo Inteligente");
-        System.out.println("4 - Obstaculos");
-
-        int modo = lerInteiro("> ", 1, 4);
-
-        switch (modo) {
-            case 1: {
-                List<Robo> rs = criarRobos(1, 0);
-                SwingUtilities.invokeLater(() -> new Main1(rs));
-                break;
-            }
-            case 2: {
-                List<Robo> rs = criarRobos(2, 0);
-                SwingUtilities.invokeLater(() -> new Main2(rs));
-                break;
-            }
-            case 3: {
-                List<Robo> rs = criarRobos(1, 1);
-                SwingUtilities.invokeLater(() -> new Main3(rs));
-                break;
-            }
-            case 4: {
-                List<Robo> rs = criarRobos(1, 1);
-                SwingUtilities.invokeLater(() -> new Main4(rs));
-                break;
-            }
-            default:
-                System.out.println("Modo inválido.");
-        }
+        SwingUtilities.invokeLater(Jogo::iniciar);
     }
 
-    // lê um inteiro entre min e max, repetindo a pergunta enquanto a entrada for inválida
-    private static int lerInteiro(String mensagem, int min, int max) {
-        while (true) {
-            System.out.print(mensagem);
-            if (scan.hasNextInt()) {
-                int valor = scan.nextInt();
-                if (valor >= min && valor <= max) {
-                    return valor;
-                }
-            } else {
-                scan.next();
-            }
-            System.out.println("Valor inválido. Digite um número de " + min + " a " + max + ".");
+    private static void iniciar() {
+        int modo = JOptionPane.showOptionDialog(null, "Escolha um modo de jogo:", "JOGO ROBÔS",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, MODOS, MODOS[0]);
+
+        switch (modo) {
+            case 0:
+                new Main1(criarRobos(1, 0));
+                break;
+            case 1:
+                new Main2(criarRobos(2, 0));
+                break;
+            case 2:
+                new Main3(criarRobos(1, 1));
+                break;
+            case 3:
+                new Main4(criarRobos(1, 1));
+                break;
+            default:
+                System.exit(0); // fechou a janela sem escolher
         }
     }
 
     // cria primeiro os robôs normais e depois os inteligentes
     private static List<Robo> criarRobos(int normais, int inteligentes) {
         List<Robo> robos = new ArrayList<>();
-        Set<String> usadas = new HashSet<>();
+        List<String> disponiveis = new ArrayList<>(List.of(CORES));
 
         for (int j = 0; j < normais + inteligentes; j++) {
             boolean inteligente = j >= normais;
             String quem = "Robô " + (j + 1) + (inteligente ? " (inteligente)" : " (normal)");
-            String cor = escolherCor(quem, usadas);
-            usadas.add(cor);
+
+            Object escolha = JOptionPane.showInputDialog(null, "Escolha a cor do " + quem + ":",
+                    "Cor do robô", JOptionPane.QUESTION_MESSAGE, null,
+                    disponiveis.toArray(), disponiveis.get(0));
+            if (escolha == null) {
+                System.exit(0);
+            }
+
+            String cor = (String) escolha;
+            disponiveis.remove(cor); // a próxima escolha não oferece essa cor
             robos.add(inteligente ? new RoboInteligente(cor) : new Robo(cor));
         }
-
         return robos;
-    }
-
-    private static String escolherCor(String quem, Set<String> usadas) {
-        while (true) {
-            System.out.println("Escolha a cor do " + quem + ":");
-            for (int i = 0; i < cores.length; i++) {
-                System.out.printf("%-15s", i + " " + cores[i]);
-                if (i % 2 == 1 || i == cores.length - 1) {
-                    System.out.println();
-                }
-            }
-            String cor = cores[lerInteiro("> ", 0, cores.length - 1)];
-            if (!usadas.contains(cor)) {
-                return cor;
-            }
-            System.out.println("Essa cor já foi escolhida por outro robô.");
-        }
     }
 }
